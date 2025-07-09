@@ -18,7 +18,7 @@
     void growSnake() {
     length++;
     gotoxy(x, y); // vẽ tại đầu mới
-    printf("O");
+    printf("#");
 }
     void checkFoodCollision() {
     if (x == foodX && y == foodY) {
