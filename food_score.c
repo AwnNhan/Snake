@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <window.h>
 int main()
 {
     int foodX, foodY;          // Tọa độ thức ăn
@@ -9,29 +10,31 @@ int main()
     int maxWidth = 50;         // Chiều rộng khung chơi
     int maxHeight = 25;        // Chiều cao khung chơi
     return 0;
-    void generateFood() {
-    foodX = rand() % maxWidth;
-    foodY = rand() % maxHeight;
-
+    
+}   void generateFood() {
+    foodX = rand() % 79;
+    foodY = rand() % 24;
+    gotoxy(foodX, foodY);
+    printf("o");  // Ký hiệu thức ăn
+}
     void growSnake() {
-    if (length < MAX_LENGTH) {
-        length++;  // Tăng độ dài rắn lên 1
-    }
-}   void checkFoodCollision(int snakeHeadX, int snakeHeadY) {
-    if (snakeHeadX == foodX && snakeHeadY == foodY) {
-        score += 10;          // Tăng điểm
-        generateFood();       // Tạo thức ăn mới
-        growSnake();          // Gọi hàm làm rắn dài thêm
+    length++;
+    gotoxy(x, y); // vẽ tại đầu mới
+    printf("O");
+}
+    void checkFoodCollision() {
+    if (x == foodX && y == foodY) {
+        score = score + 1;
+        generateFood();  // Tạo mồi mới
+        growSnake();     // Rắn dài lên
     }
 }
     void displayScore() {
-        gotoxy(0, 0); 
+        gotoxy(0, 0);
         printf("Score: %d", score);
     }
 }
     void food_score(int snakeHeadX, int snakeHeadY) {
     checkFoodCollision(snakeHeadX, snakeHeadY);
     displayScore();
-}
-return0;
 }
