@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+
+#define MAX_PLAYERS 5
+
+typedef struct {
+    char ten[50];
+    int diem;
+} NguoiChoi;
+
+void hienThiMenu() {
+    printf("\n--- MENU CHINH ---\n");
+    printf("1. Start\n");
+    printf("2. Xem xep hang\n");
+    printf("3. Thoat\n");
+    printf("Chon chuc nang (1-3): ");
+}
+
+void hienThiBangXepHang(NguoiChoi ds[]) {
+    printf("\n--- TOP 5 NGUOI CO DIEM CAO NHAT ---\n");
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        printf("%d. %s - %d diem\n", i + 1, ds[i].ten, ds[i].diem);
+    }
+}
+
+int main() {
+    NguoiChoi danhSach[MAX_PLAYERS] = {
+        {"Nguyen Van A", 95},
+        {"Tran Thi B", 90},
+        {"Le Van C", 85},
+        {"Pham Thi D", 80},
+        {"Hoang Van E", 75}
+    };
+
+    int luaChon = 0;
+
+    while (1) {
+        system("cls");
+        hienThiMenu();
+
+        char phim = _getch();
+
+        switch (phim) {
+            case '1':
+                printf("\n>> Ban da chon 'Start'...\n");
+                break;
+            case '2':
+                hienThiBangXepHang(danhSach);
+                break;
+            case '3':
+                printf("\n>> Thoat chuong trinh...\n");
+                return 0;
+            default:
+                printf("\n>> Lua chon khong hop le!\n");
+        }
+
+        printf("\nNhan phim bat ky de tiep tuc...\n");
+        _getch();
+    }
+
+    return 0;
+}
