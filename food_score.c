@@ -1,37 +1,63 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#include <time.h>
 #include <windows.h>
-    int foodX, foodY;          // Tọa độ thức ăn
-    int score = 0;             // Điểm số ban đầu
 
-    int maxWidth = 50;         // Chiều rộng khung chơi
-    int maxHeight = 25;        // Chiều cao khung chơi
-    return 0;
-    
-    void generateFood() {
-    foodX = rand() % 79;
-    foodY = rand() % 24;
-    gotoxy(foodX, foodY);
-    printf("o");  // Ký hiệu thức ăn
+    int foodX, foodY;
+    int score = 0;
+    int length = 1;
+    int x = 1, y = 1;
+void gotoxy(int xpos, int ypos) {
+    COORD coord;
+    coord.X = xpos;
+    coord.Y = ypos;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
-    void growSnake() {
+
+// Tạo thức ăn mới tại vị trí ngẫu nhiên
+void generateFood() {
+    foodX = rand() % 50;
+    foodY = rand() % 25;
+    gotoxy(foodX, foodY);
+    printf("o");
+}
+
+// Khi rắn ăn mồi thì tăng chiều dài
+void growSnake() {
     length++;
-    gotoxy(x, y); // vẽ tại đầu mới
+    gotoxy(x, y);
     printf("#");
 }
-    void checkFoodCollision() {
-    if (x == foodX && y == foodY) {
-        score = score + 1;
-        generateFood();  // Tạo mồi mới
-        growSnake();     // Rắn dài lên
+
+// Kiểm tra va chạm thức ăn
+void checkFoodCollision(int snakeHeadX, int snakeHeadY) {
+    if (snakeHeadX == foodX && snakeHeadY == foodY) {
+        score++;
+        generateFood();
+        growSnake();
     }
 }
-    void displayScore() {
-        gotoxy(0, 0);
-        printf("Score: %d", score);
-    }
-    void food_score(int snakeHeadX, int snakeHeadY) {
+
+// Hiển thị điểm số
+void displayScore() {
+    gotoxy(0, 0);
+    printf("Score: %d", score);
+}
+
+
+void food_score(int snakeHeadX, int snakeHeadY) {
     checkFoodCollision(snakeHeadX, snakeHeadY);
     displayScore();
+}
+
+
+int main() {
+    srand(time(NULL));
+    generateFood();
+    displayScore();
+
+    food_score(x, y);
+
+    getchar();
+    return 0;
 }
