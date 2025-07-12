@@ -3,10 +3,13 @@
 #include <time.h>
 #include <windows.h>
 
-    int foodX, foodY;
-    int score = 0;
-    int length = 1;
-    int x = 1, y = 1;
+int foodX, foodY;
+int score = 0;
+int length = 1;
+
+// Sử dụng x, y từ snake.c
+extern int x, y;
+
 void gotoxy(int xpos, int ypos) {
     COORD coord;
     coord.X = xpos;
@@ -14,7 +17,6 @@ void gotoxy(int xpos, int ypos) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-// Tạo thức ăn mới tại vị trí ngẫu nhiên
 void generateFood() {
     foodX = rand() % 50;
     foodY = rand() % 25;
@@ -22,14 +24,12 @@ void generateFood() {
     printf("o");
 }
 
-// Khi rắn ăn mồi thì tăng chiều dài
 void growSnake() {
     length++;
     gotoxy(x, y);
-    printf("#");
+    printf("#");// In lại đầu rắn sau khi ăn
 }
 
-// Kiểm tra va chạm thức ăn
 void checkFoodCollision(int snakeHeadX, int snakeHeadY) {
     if (snakeHeadX == foodX && snakeHeadY == foodY) {
         score++;
@@ -38,26 +38,19 @@ void checkFoodCollision(int snakeHeadX, int snakeHeadY) {
     }
 }
 
-// Hiển thị điểm số
 void displayScore() {
     gotoxy(0, 0);
     printf("Score: %d", score);
 }
 
-
 void food_score(int snakeHeadX, int snakeHeadY) {
+    // Khởi tạo thức ăn nếu lần đầu
+    static int first = 1;
+    if (first) {
+        srand(time(NULL));
+        generateFood();
+        first = 0;
+    }
     checkFoodCollision(snakeHeadX, snakeHeadY);
     displayScore();
-}
-
-
-int main() {
-    srand(time(NULL));
-    generateFood();
-    displayScore();
-
-    food_score(x, y);
-
-    getchar();
-    return 0;
 }
