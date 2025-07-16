@@ -59,7 +59,7 @@ void food_score(int snakeHeadX, int snakeHeadY)
         first = 0;
     }
 
-    //Xử lý ăn thức ăn (có thể làm length++)
+    //Xử lý ăn thức ăn 
     checkFoodCollision(snakeHeadX, snakeHeadY);
 
     //Thêm vị trí đầu CŨ thành một khúc thân mới
@@ -74,7 +74,7 @@ void food_score(int snakeHeadX, int snakeHeadY)
         int tailIndex = 0;                        // phần tử đầu mảng là đuôi
         gotoxy(bodyX[tailIndex], bodyY[tailIndex]);
         putchar(' ');
-        // Dồn mảng sang trái một ô (đơn giản, O(n) nhưng đủ dùng)
+        // Dồn mảng sang trái một ô 
         for (int i = 1; i < bodyLen; ++i) {
             bodyX[i-1] = bodyX[i];
             bodyY[i-1] = bodyY[i];
