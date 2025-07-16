@@ -27,7 +27,7 @@ void generateFood() {
 void growSnake() {
     length++;
     gotoxy(x, y);
-    printf("#");// In lại đầu rắn sau khi ăn
+    printf("0");// In lại đầu rắn sau khi ăn
 }
 
 void checkFoodCollision(int snakeHeadX, int snakeHeadY) {
