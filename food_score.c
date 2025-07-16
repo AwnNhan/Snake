@@ -3,95 +3,83 @@
 #include <time.h>
 #include <windows.h>
 #include "snake.h"
-extern int x, y;        // đầu rắn (cập nhật trong snake_move)
-int  score   = 0;
-int  length  = 1;       // đầu tiên rắn dài 1 laf dau ran
 
-#define MAX_LEN 500      // độ dài tối cua ran
+extern int x, y;
+int score = 0;
+int length = 1;
+
+#define MAX_LEN 500
 int bodyX[MAX_LEN], bodyY[MAX_LEN];
-int bodyLen = 0;  // số khúc thân đang tồn tại
+int bodyLen = 0;
 
-int foodX, foodY;   // toạ độ thức ăn
+int foodX, foodY;
 
-// ham lay toa do xy
-void gotoxy(int xpos, int ypos)
-{
+void gotoxy(int xpos, int ypos) {
     COORD coord = { xpos, ypos };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-void generateFood(void)
-{
-    foodX = rand() % 60+10;
-    foodY = rand() % 15+5;
-    gotoxy(foodX, foodY);     putchar('o');
+void generateFood() {
+    foodX = rand() % 60 + 10;
+    foodY = rand() % 15 + 5;
+    gotoxy(foodX, foodY); putchar('o');
 }
 
-static void growSnake(void) { ++length; }
+void growSnake() { length++; }
 
-//Kiểm tra va chạm với thức ăn
-void checkFoodCollision(int headX, int headY)
-{
+void checkFoodCollision(int headX, int headY) {
     if (headX == foodX && headY == foodY) {
-        ++score;
+        score++;
         generateFood();
-        growSnake();          // tăng chiều dài logic
+        growSnake();
     }
 }
 
-static void displayScore(void)
-{
+void displayScore() {
     gotoxy(0, 0);
     printf("Score: %d", score);
 }
 
-void food_score(int snakeHeadX, int snakeHeadY)
-{
+void food_score(int headX, int headY) {
     static int first = 1;
-    static int prevHeadX, prevHeadY;   // lưu đầu ở khung hình trước
+    static int prevX, prevY;
 
-    // Khởi tạo lần đầu
     if (first) {
-        srand((unsigned)time(NULL));
+        srand(time(NULL));
         generateFood();
-        prevHeadX = snakeHeadX;
-        prevHeadY = snakeHeadY;
+        prevX = headX;
+        prevY = headY;
         first = 0;
     }
 
-    //Xử lý ăn thức ăn 
-    checkFoodCollision(snakeHeadX, snakeHeadY);
+    checkFoodCollision(headX, headY);
 
-    //Thêm vị trí đầu CŨ thành một khúc thân mới
+    // Thêm khúc thân tại vị trí đầu cũ
     if (bodyLen < MAX_LEN) {
-        bodyX[bodyLen] = prevHeadX;
-        bodyY[bodyLen] = prevHeadY;
-        ++bodyLen;
+        bodyX[bodyLen] = prevX;
+        bodyY[bodyLen] = prevY;
+        bodyLen++;
     }
 
-    // Nếu thân dài hơn (length‑1) thì xoá đuôi để giữ đúng chiều dài
+    // Xoá đuôi nếu quá dài
     if (bodyLen > length - 1) {
-        int tailIndex = 0;                        // phần tử đầu mảng là đuôi
-        gotoxy(bodyX[tailIndex], bodyY[tailIndex]);
+        gotoxy(bodyX[0], bodyY[0]);
         putchar(' ');
-        // Dồn mảng sang trái một ô 
-        for (int i = 1; i < bodyLen; ++i) {
-            bodyX[i-1] = bodyX[i];
-            bodyY[i-1] = bodyY[i];
+        for (int i = 1; i < bodyLen; i++) {
+            bodyX[i - 1] = bodyX[i];
+            bodyY[i - 1] = bodyY[i];
         }
-        --bodyLen;
+        bodyLen--;
     }
 
-    //Vẽ tất cả khúc thân hiện có
-    for (int i = 0; i < bodyLen; ++i) {
+    // Vẽ thân rắn
+    for (int i = 0; i < bodyLen; i++) {
         gotoxy(bodyX[i], bodyY[i]);
         putchar('#');
     }
 
-    //Lưu lại đầu hiện tại cho khung hình sau
-    prevHeadX = snakeHeadX;
-    prevHeadY = snakeHeadY;
+    prevX = headX;
+    prevY = headY;
 
-    //Hiển thị điểm
     displayScore();
 }
