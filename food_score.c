@@ -4,6 +4,7 @@
 #include <windows.h>
 #include "snake.h"
 
+extern int x, y;
 int score = 0;
 int length = 1;
 
