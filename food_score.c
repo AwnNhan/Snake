@@ -13,6 +13,10 @@ int bodyX[MAX_LEN], bodyY[MAX_LEN];
 int bodyLen = 0;
 int foodX, foodY;
 
+void gotoxy(int x, int y) {
+    COORD coord = {x, y};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
 void generateFood() {
     foodX = rand() % 60 + 10;
     foodY = rand() % 15 + 5;
@@ -23,7 +27,7 @@ void generateFood() {
 void checkFoodCollision(int headX, int headY) {
     if (headX == foodX && headY == foodY) {
         score++;
-        length++;       
+        length++;
         generateFood();
     }
 }
