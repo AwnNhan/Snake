@@ -4,25 +4,19 @@
 #include <windows.h>
 #include "snake.h"
 
-extern int x, y;
 int score = 0;
 int length = 1;
 
 #define MAX_LEN 500
 int bodyX[MAX_LEN], bodyY[MAX_LEN];
 int bodyLen = 0;
-
 int foodX, foodY;
-
-void gotoxy(int xpos, int ypos) {
-    COORD coord = { xpos, ypos };
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
 
 void generateFood() {
     foodX = rand() % 60 + 10;
     foodY = rand() % 15 + 5;
-    gotoxy(foodX, foodY); putchar('o');
+    gotoxy(foodX, foodY);
+    putchar('o');
 }
 
 void growSnake() { length++; }
