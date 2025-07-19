@@ -19,14 +19,12 @@ void generateFood() {
     gotoxy(foodX, foodY);
     putchar('o');
 }
-
-void growSnake() { length++; }
-
+// hàm check va cham thuc an va tang do dai
 void checkFoodCollision(int headX, int headY) {
     if (headX == foodX && headY == foodY) {
         score++;
+        length++;       
         generateFood();
-        growSnake();
     }
 }
 
